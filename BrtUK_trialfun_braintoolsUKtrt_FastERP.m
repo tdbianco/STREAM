@@ -74,7 +74,8 @@ validTStim = zeros(numEvents,1);
                     validTStim(e,1) = 1;
                 end
             else
-                error('Cannot pair offsets with onsets.')
+                warning('Cannot pair offsets with onsets.')
+                disp(e)
             end
             
         end

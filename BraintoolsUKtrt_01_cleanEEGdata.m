@@ -1,4 +1,4 @@
-%% % Braintools UK project test-retest data: Clean EEG data
+%% Clean EEG data
 
 % This script cleans the EEG data (fieldtrip format).
 
@@ -43,17 +43,17 @@ clear variables
 %% Set up table to keep track of different thresholds
 
 % Variables: ID+session, EEGft_path, CleanData_path, 
-% Nfaceup, Nfaceinv, Nobjup, Nobjinv Ncheckers
+% Nfaceup, Ncheckers
 
 % create a table with variable for tracking
 
 PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
-%     Nrows = numel(PPTfolder)-7;
-%     stream_ClnEEG = table('Size',[Nrows 8], ...
-%         'VariableNames',{'IDses','EEGft_path','CleanData_path','Nfaceup','Nfaceinv','Nobjup','Nobjinv','Ncheckers'},...
-%         'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell', 'cell'});
-% 
-%     save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat','stream_ClnEEG');
+    Nrows = numel(PPTfolder)-7;
+    stream_ClnEEG = table('Size',[Nrows 5], ...
+        'VariableNames',{'IDses','EEGft_path','CleanData_path','Nfaceup','Ncheckers'},...
+        'VariableTypes',{'cell','cell','cell','cell','cell'});
+
+    save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat','stream_ClnEEG');
 
     
 %% Clean and preprocess all datasets

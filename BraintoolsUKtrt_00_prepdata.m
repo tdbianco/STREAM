@@ -1,4 +1,4 @@
-%% Adapting the Braintools UK Script for STREAM
+%% Examine attentiveness with eye-tracking 
 
 % This script prepares the data for EEG preprocessing analyses.
 
@@ -32,18 +32,18 @@
 %% Create the table to compilate with info %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear variables
-% load('/XXXXX/BraintoolsUK_IDs_tracking_wETint.mat');
+load('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat');
 
-% or you can create a table with variable for tracking if it does not exist yet
-    PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
-    Nrows = numel(PPTfolder)-7;
-    stream_IDs_tracking_wETint = table('Size',[Nrows 13], ...
-        'VariableNames',{'ID','tEEG_path','tNev_EEG','tNev_ET','tN_ETraw50','tN_ETint50','tETpropVal_raw_int',...
-        'rtEEG_path','rtNev_EEG','rtNev_ET','rtN_ETraw50','rtN_ETint50','rtETpropVal_raw_int'},...
-        'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell',...
-        'cell','cell','cell','cell','cell','cell'});
-
-    save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat','stream_IDs_tracking_wETint');
+% % or you can create a table with variable for tracking if it does not exist yet
+%     PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
+%     Nrows = numel(PPTfolder)-7;
+%     stream_IDs_tracking_wETint = table('Size',[Nrows 13], ...
+%         'VariableNames',{'ID','tEEG_path','tNev_EEG','tNev_ET','tN_ETraw50','tN_ETint50','tETpropVal_raw_int',...
+%         'rtEEG_path','rtNev_EEG','rtNev_ET','rtN_ETraw50','rtN_ETint50','rtETpropVal_raw_int'},...
+%         'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell',...
+%         'cell','cell','cell','cell','cell','cell'});
+% 
+%     save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat','stream_IDs_tracking_wETint');
 
 
 % Set up local paths to scripts
@@ -72,7 +72,7 @@ for ii = 1 : height(stream_IDs_tracking_wETint) % per subject
     session_folders(strncmp({session_folders.name}, '.', 1)) = []; % remove folders starting with '.'
     session_folders  = session_folders([session_folders.isdir]);
         
-    % check the number of session folders (I assume 1 session)
+    % check the number of session folders (I only include parts with 1 session so skip)
 %     N_sessions = numel(session_folders);
 %     Info.tEEG_path = cell(1,N_sessions); % path to EEG data
 %     Info.tNev_EEG = nan([1,N_sessions]); % number of events in EEG
@@ -82,7 +82,8 @@ for ii = 1 : height(stream_IDs_tracking_wETint) % per subject
 %     Info.tETpropVal_raw_int = cell(1,N_sessions); % prop valid before interpolation and after per trial
               
     SessionFolderCur = strcat(session_folders.folder,'/',session_folders.name);
-%% 1) Find the EEG data 
+
+    %% 1) Find the EEG data 
     TEdata = teData(SessionFolderCur);
     ext = TEdata.ExternalData;
     % find the path to the easy file
@@ -101,7 +102,8 @@ for ii = 1 : height(stream_IDs_tracking_wETint) % per subject
     TEdata = teData(SessionFolderCur);
     ext = TEdata.ExternalData;
 
-%% 2) Find the number of events in the EEG for the fastERP task in the fieldtrip data
+
+    %% 2) Find the number of events in the EEG for the fastERP task in the fieldtrip data
     % find raw data in the fieldtrip folder
     extFT = ext('fieldtrip').Paths; extFTeeg = extFT('fieldtrip');
     load(extFTeeg,'ft_data')
@@ -119,7 +121,8 @@ for ii = 1 : height(stream_IDs_tracking_wETint) % per subject
     clear EVvalue NumEvents StimCodes XOnset IndTStim
     clear FT_folder_cont Ind_ftraw Ind_ftraw_files
 
-%% 3) Explore the eye-tracking ET data
+
+    %% 3) Explore the eye-tracking ET data
 % check whether the eye-tracking data exist
 % Filter Log data for the fasterp task
 tab = teLogFilter(TEdata.Log, 'task', 'fasterp', 'topic', 'trial_log_data');
