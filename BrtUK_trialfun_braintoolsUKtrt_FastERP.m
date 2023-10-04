@@ -24,13 +24,12 @@ numEvents = length(EVvalue);
 
 %% Selecting event specific for braintools
 
-% EEG markers in Braintools:
+% EEG markers in Stream:
     % checkerboards; 330
     % faces up; 310 312 314 316
-    % faces inv; 311 313 315 317
     
 % select the target onset stimuli
-StimCodes = [310 311 312 313 314 315 316 317 320 321 330]; % faces up/inv, obj/animals up/inv, checkerboards onset
+StimCodes = [310 312 314 316 330]; % faces up/inv, obj/animals up/inv, checkerboards onset
 XOnset = zeros(numEvents,length(StimCodes));
 for ii = 1:length(StimCodes)
 %     XOnset(:,ii) = strcmp(num2str(StimCodes(1,ii)), EVvalue);
@@ -39,7 +38,7 @@ end
 XOnset = sum(XOnset,2); IndTStim = find(XOnset==1);
 
 % check validity of the stimuli
-StimOffset = [318 322 331]; % faces up/inv, obj up/inv, checkerboards offset
+StimOffset = [318 331]; % faces up, checkerboards offset
 XOffset = zeros(numEvents,length(StimOffset));
 for ii = 1:length(StimOffset)
 %     XOffset(:,ii) = strcmp(num2str(StimOffset(1,ii)), EVvalue);

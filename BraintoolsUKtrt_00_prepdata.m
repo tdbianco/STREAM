@@ -47,7 +47,7 @@ clear variables
 
 
 % Set up local paths to scripts
-    %add LM code TaskEngine2
+%add LM code TaskEngine2
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/TaskEngine2'))
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/lm_tools'));
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/ettools-main'));

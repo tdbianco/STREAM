@@ -30,7 +30,7 @@ clear variables
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/TaskEngine2'))
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/lm_tools'));
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/ettools-main'));
-    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/eegtools'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/eegools-main'));
     addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/tasks')); 
 % braintools UK specific analysis scripts    
     addpath('/Users/teresa/Documents/MATLAB/STREAM');
@@ -94,16 +94,16 @@ for ss = 1:height(stream_ClnEEG)
         save(Cleandata_path, 'EEGdata_Faces_Obj','EEGdata_Checkers', 'FastERP_info')
 
     % 4) Add the path to the clean data into the table
-        stream_ClnEEG.CleanData_path{ss} = Cleandata_path;
+        BrtUK_ClnEEG.CleanData_path{ss} = Cleandata_path;
   
     % 5) Add the number of clean trial per condition into the table
-        stream_ClnEEG.Nfaceup(ss) = {FastERP_info.N_trials.FaceUp.Nclean};
-        %stream_ClnEEG.Nfaceinv(ss) = {FastERP_info.N_trials.FaceInv.Nclean};
-        %stream_ClnEEG.Nobjup(ss) = {FastERP_info.N_trials.ObjUp.Nclean};
-        %stream_ClnEEG.Nobjinv(ss) = {FastERP_info.N_trials.ObjInv.Nclean};
-        stream_ClnEEG.Ncheckers(ss) = {FastERP_info.N_trials.Checkers.Nclean}; 
+        BrtUK_ClnEEG.Nfaceup(ss) = {FastERP_info.N_trials.FaceUp.Nclean};
+        BrtUK_ClnEEG.Nfaceinv(ss) = {FastERP_info.N_trials.FaceInv.Nclean};
+        BrtUK_ClnEEG.Nobjup(ss) = {FastERP_info.N_trials.ObjUp.Nclean};
+        BrtUK_ClnEEG.Nobjinv(ss) = {FastERP_info.N_trials.ObjInv.Nclean};
+        BrtUK_ClnEEG.Ncheckers(ss) = {FastERP_info.N_trials.Checkers.Nclean}; 
         
-        save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat','stream_ClnEEG');
+        save('/XXXXX/BraintoolsUK_Cleandata_tracker.mat','BrtUK_ClnEEG');
         
         clear EEGdata_Faces_Obj EEGdata_Checkers FastERP_info 
         clear FTdata Cleandata_path Session_path Subj
