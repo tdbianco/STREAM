@@ -151,7 +151,7 @@ function [EEG_data, REFinfo] = BrtUK_01ab_preproc_cleandata(Raw_trials_cond, Con
                 tmp_trial{tr} = tmpi.trial{1};    
                 % record this trial was re-referenced to Cz
                 Reref_Cz_C34(tr,:) = [1,0];
-            elseif ~any(art(Ind_C34,tr,:)) % check whether C3 and C4 if good, if yes re-ref to C3/4
+            elseif ~isempty(art(Ind_C34,tr,:)) && ~any(art(Ind_C34,tr,:)) % check whether C3 and C4 if good, if yes re-ref to C3/4
                 % select data from current trial 
                 CurrTrlind = false(numTrials, 1);
                 CurrTrlind(tr) = true;
@@ -162,7 +162,7 @@ function [EEG_data, REFinfo] = BrtUK_01ab_preproc_cleandata(Raw_trials_cond, Con
                 data_stripped = rmfieldIfPresent(data_tref,...
                     {'art_type', 'art', 'summary'});
                 tmp = ft_selectdata(cfg, data_stripped);
-                % re-reference to Cz
+                % re-reference to 34
                 cfg = [];
                 cfg.reref         = 'yes';
                 cfg.refchannel    = data_tref.label{Ind_C34,1};

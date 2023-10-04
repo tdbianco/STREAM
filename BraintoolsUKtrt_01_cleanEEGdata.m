@@ -97,6 +97,9 @@ for ss = 1:height(stream_ClnEEG)
         stream_ClnEEG.CleanData_path{ss} = Cleandata_path;
   
     % 5) Add the number of clean trial per condition into the table
+    
+        stream_ClnEEG.IDses(ss) = {Subj};
+        stream_ClnEEG.EEGft_path(ss) = {FTdata};
         stream_ClnEEG.Nfaceup(ss) = {FastERP_info.N_trials.FaceUp.Nclean};
         %stream_ClnEEG.Nfaceinv(ss) = {FastERP_info.N_trials.FaceInv.Nclean};
         %stream_ClnEEG.Nobjup(ss) = {FastERP_info.N_trials.ObjUp.Nclean};
