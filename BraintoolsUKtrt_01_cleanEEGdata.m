@@ -68,7 +68,7 @@ load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_trackin
     BPfilter = [.1, 40]; % range for band pass filter
     Baseline_timewindow =  [-0.1, 0]; % time for baseline correction in sec, or empty
 
-for ss = 1:height(stream_ClnEEG)
+for ss = 21:height(stream_ClnEEG)
 
     fprintf('Currently nr %i out of %i\n',ss,height(stream_ClnEEG))
     Subj = PPTfolder(7+ss).name; %ppt code
