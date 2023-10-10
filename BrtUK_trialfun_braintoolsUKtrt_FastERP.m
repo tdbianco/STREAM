@@ -29,7 +29,7 @@ numEvents = length(EVvalue);
     % faces up; 310 312 314 316
     
 % select the target onset stimuli
-StimCodes = [310 312 314 316 330]; % faces up/inv, obj/animals up/inv, checkerboards onset
+StimCodes = [310 312 314 316 330]; % faces up, checkerboards onset
 XOnset = zeros(numEvents,length(StimCodes));
 for ii = 1:length(StimCodes)
 %     XOnset(:,ii) = strcmp(num2str(StimCodes(1,ii)), EVvalue);

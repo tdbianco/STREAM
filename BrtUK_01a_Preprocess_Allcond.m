@@ -55,12 +55,12 @@ function [EEGdata_Faces_Obj, EEGdata_Checkers, Info_struct] = BrtUK_01a_Preproce
         % faces up
         cfg = [];
         cfg.trials      = find(Raw_trials.trialinfo == 310 | Raw_trials.trialinfo == 312 | Raw_trials.trialinfo == 314 | Raw_trials.trialinfo == 316);
-        cfg.channel     = {'P7','P8','Cz','C3','C4'};
+        cfg.channel     = {'Oz','P7','P8','Cz','C3','C4'};
         Raw_trials_Faces_Obj = ft_selectdata(cfg, Raw_trials); 
         % checkers
         cfg.trials = [];
         cfg.trials      = find(Raw_trials.trialinfo == 330);
-        cfg.channel     = {'Oz','Cz','C3','C4'};
+        cfg.channel     = {'Oz','P7','P8','Cz','C3','C4'};
         Raw_trials_Checkers = ft_selectdata(cfg, Raw_trials); 
         
         
