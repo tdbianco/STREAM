@@ -257,16 +257,18 @@ Ntrls_EEGMW = MW_EEGn(xxxmw,1);
 figure;
 h1 = histogram(Ntrls_EEGMW);
 hold on
-h2 = histogram(Ntrls_EEGIN);
-h1.BinWidth = 17;
-h2.BinWidth = 6;
-legend('India','Malawi')
-ylabel('N participants with ET > 60%')
+% h2 = histogram(Ntrls_EEGIN);
+h1.BinWidth = 23;
+h2.BinWidth = 5;
+% legend('India','Malawi')
+ylabel('N participants')
 xlabel('N EEG trials')
 
 IDs_HighlyAttentiveET_IN = stream_IDs_tracking_wETint_IN.ID(xxxin);
-IDs_HighlyAttentiveET_MW = stream_IDs_tracking_wETint_MW.ID(xxxmw);
+% Ntrls_EEG = [Ntrls_EEGt, Ntrls_EEGrt];
 
+% IDs_HighlyAttentiveET = BraintoolsUK_IDs_tracking_wETint.ID(Indboth);
+% Ntrls_EEG = [Ntrls_EEGt, Ntrls_EEGrt];
 
 
 
