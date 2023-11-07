@@ -22,84 +22,47 @@
 %%
 
 clear variables
-% add common paths
-% braintools and task engine scripts
-    addpath(genpath('/XXXXX'));
+
+% Set up local paths to scripts
+%add LM code TaskEngine2
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/TaskEngine2'))
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/lm_tools'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/ettools-main'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/eegtools'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/tasks')); 
 % braintools UK specific analysis scripts    
-    addpath('/XXXXX');
+    addpath('/Users/teresa/Documents/MATLAB/STREAM');
+    addpath('/Users/teresa/Documents/MATLAB/EEG_QC/BrT_Arb_scripts')
 %add fieldtrip path and set to defaults
-    addpath('/XXXXX/fieldtrip-20180925'); 
+    addpath('/Users/teresa/Documents/MATLAB/fieldtrip-20180925'); 
     ft_defaults
     
 %% For each dataset: create individual averages
 
-load '/XXXXX/BraintoolsUK_Cleandata_tracker.mat'
+load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat'
     
-for ss = 1:height(BrtUK_ClnEEG)  
+for ss = 1:height(stream_ClnEEG)  
     
-    fprintf('Currently nr %i out of %i\n',ss,height(BrtUK_ClnEEG))
-    Subj = BrtUK_ClnEEG.IDses{ss}; %ppt code
+    fprintf('Currently nr %i out of %i\n',ss,height(stream_ClnEEG))
+    Subj = stream_ClnEEG.IDses{ss}; %ppt code
     disp(Subj)
     
     % 1) load clean data
-        load(BrtUK_ClnEEG.CleanData_path{ss}, 'EEGdata_Faces_Obj','EEGdata_Checkers', 'FastERP_info')
+        load(stream_ClnEEG.CleanData_path{ss}, 'EEGdata_Faces_Obj','EEGdata_Checkers', 'FastERP_info')
 
-    % 2) Create individual ERPs for the different conditions    
-    % For Face (all) vs. Obj (all)
-        ChsoI = {'P7','P8'};
-        NFaceAll = BrtUK_ClnEEG.Nfaceup{ss} + BrtUK_ClnEEG.Nfaceinv{ss};
-        NObjAll = BrtUK_ClnEEG.Nobjup{ss} + BrtUK_ClnEEG.Nobjinv{ss};
-        % check whether there are more than 10 trials for each condition and
-        % whether the channels of interest are present in the dataset
-        if  NFaceAll > 10 && NObjAll > 10 && sum(ismember(ChsoI,EEGdata_Faces_Obj.label),2) == 2
-            % Face all
-            % average over channels and select  trials
-                cfg = [];
-                cfg.channel     = ChsoI;
-                cfg.avgoverchan = 'yes';
-                cfg.trials      = find(EEGdata_Faces_Obj.trialinfo == 310 | EEGdata_Faces_Obj.trialinfo == 312 | ...
-                    EEGdata_Faces_Obj.trialinfo == 314 | EEGdata_Faces_Obj.trialinfo == 316 | ...
-                EEGdata_Faces_Obj.trialinfo == 311 | EEGdata_Faces_Obj.trialinfo == 313 | ...
-                EEGdata_Faces_Obj.trialinfo == 315 | EEGdata_Faces_Obj.trialinfo == 317);
-                data_avgchoi = ft_selectdata(cfg,EEGdata_Faces_Obj);
-            % calculate timelocked ERP
-                cfg = [];
-                erp_NoBl = ft_timelockanalysis(cfg, data_avgchoi);
-                cfg = [];
-                cfg.baseline    = FastERP_info.Baseline_timewindow;
-                IndividualERP_FaceAll = ft_timelockbaseline(cfg, erp_NoBl);
-                clear data_avgchoi erp_NoBl
-            % Object all 
-            % average over channels and select  trials
-                cfg = [];
-                cfg.channel     = ChsoI;
-                cfg.avgoverchan = 'yes';
-                cfg.trials      = find(EEGdata_Faces_Obj.trialinfo == 320 | EEGdata_Faces_Obj.trialinfo == 321);
-                data_avgchoi = ft_selectdata(cfg,EEGdata_Faces_Obj);
-            % calculate timelocked ERP
-                cfg = [];
-                erp_NoBl = ft_timelockanalysis(cfg, data_avgchoi);
-                cfg = [];
-                cfg.baseline    = FastERP_info.Baseline_timewindow;
-                IndividualERP_ObjAll = ft_timelockbaseline(cfg, erp_NoBl);
-                clear data_avgchoi erp_NoBl
-        else
-            IndividualERP_FaceAll = [];
-            IndividualERP_ObjAll = [];
-        end
-
+    % 2) Create individual ERPs for the different conditions
     
-    % For Face up vs. Face inv
+    % For Face up
         ChsoI = {'P7','P8'};
-        NFaceUp = BrtUK_ClnEEG.Nfaceup{ss};
-        NFaceInv = BrtUK_ClnEEG.Nfaceinv{ss};
+        NFaceUp = stream_ClnEEG.Nfaceup{ss};
+       
         % check whether there are more than 10 trials for each condition and
         % whether the channels of interest are present in the dataset
-        if  NFaceUp > 10 && NFaceInv > 10 && sum(ismember(ChsoI,EEGdata_Faces_Obj.label),2) == 2
+        if  NFaceUp > 10 && sum(ismember(ChsoI,EEGdata_Faces_Obj.label),2) == 2
             % Face up
             % average over channels and select  trials
                 cfg = [];
-                cfg.channel     = ChsoI;
+                cfg.channels     = ChsoI;
                 cfg.avgoverchan = 'yes';
                 cfg.trials      = find(EEGdata_Faces_Obj.trialinfo == 310 | EEGdata_Faces_Obj.trialinfo == 312 | ...
                     EEGdata_Faces_Obj.trialinfo == 314 | EEGdata_Faces_Obj.trialinfo == 316);
@@ -109,22 +72,7 @@ for ss = 1:height(BrtUK_ClnEEG)
                 erp_NoBl = ft_timelockanalysis(cfg, data_avgchoi);
                 cfg = [];
                 cfg.baseline    = FastERP_info.Baseline_timewindow;
-                IndividualERP_FaceUp = ft_timelockbaseline(cfg, erp_NoBl);
-                clear data_avgchoi erp_NoBl
-            % Face inv
-            % average over channels and select  trials
-                cfg = [];
-                cfg.channel     = ChsoI;
-                cfg.avgoverchan = 'yes';
-                cfg.trials      = find(EEGdata_Faces_Obj.trialinfo == 311 | EEGdata_Faces_Obj.trialinfo == 313 | ...
-                EEGdata_Faces_Obj.trialinfo == 315 | EEGdata_Faces_Obj.trialinfo == 317);
-                data_avgchoi = ft_selectdata(cfg,EEGdata_Faces_Obj);
-            % calculate timelocked ERP
-                cfg = [];
-                erp_NoBl = ft_timelockanalysis(cfg, data_avgchoi);
-                cfg = [];
-                cfg.baseline    = FastERP_info.Baseline_timewindow;
-                IndividualERP_FaceInv = ft_timelockbaseline(cfg, erp_NoBl);
+                IndividualERP_Face = ft_timelockbaseline(cfg, erp_NoBl);
                 clear data_avgchoi erp_NoBl
         else
             IndividualERP_FaceUp = [];
@@ -134,14 +82,14 @@ for ss = 1:height(BrtUK_ClnEEG)
     
    % Checkerboard
         ChsoI = 'Oz';
-        NChecker = BrtUK_ClnEEG.Ncheckers{ss};
+        NChecker = stream_ClnEEG.Ncheckers{ss};
         % check whether there are more than 10 trials for each condition and
         % whether the channels of interest are present in the dataset
         if  NChecker > 10 && ismember(ChsoI,EEGdata_Checkers.label)
             % Checkerboard
             % average over channels and select  trials
                 cfg = [];
-                cfg.channel     = ChsoI;
+                cfg.channels     = ChsoI;
                 cfg.avgoverchan = 'yes';
                 cfg.trials      = find(EEGdata_Checkers.trialinfo == 330);
                 data_avgchoi = ft_selectdata(cfg,EEGdata_Checkers);
@@ -157,8 +105,7 @@ for ss = 1:height(BrtUK_ClnEEG)
         end
     % 3) Save the data in the session fieldtrip folder
         % append the individual averages to the clean data file
-        save(BrtUK_ClnEEG.CleanData_path{ss}, 'IndividualERP_FaceAll','IndividualERP_ObjAll',...
-            'IndividualERP_FaceUp', 'IndividualERP_FaceInv', 'IndividualERP_Checkers','-append');
+        save(stream_ClnEEG.CleanData_path{ss}, 'IndividualERP_Face','IndividualERP_Checkers','-append');
         
 end
 
