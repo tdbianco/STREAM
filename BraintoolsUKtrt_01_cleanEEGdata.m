@@ -58,7 +58,7 @@ PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
     
 %% Clean and preprocess all datasets
 
-% load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat'
+load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat'
 load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat'
     
 % Cleaning parameters:

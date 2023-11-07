@@ -32,7 +32,7 @@ function [EEG_data, REFinfo] = BrtUK_01ab_preproc_cleandata(Raw_trials_cond, Con
             ChsoI = {'Oz','P7','P8','Cz','C3','C4'}; % define channels of interest
             disp('Processing data for faces')
         elseif strcmp(Condition, 'checkers')
-            ChsoI = {'Oz'}; % define channel of interest
+            ChsoI = {'Oz','P7','P8','Cz','C3','C4'}; % define channel of interest
             disp('Processing data for checkerboards')
         else
             error('Condition for raw trials has not been recognised.')

@@ -58,7 +58,7 @@ for ss = 1:height(stream_ClnEEG)
        
         % check whether there are more than 10 trials for each condition and
         % whether the channels of interest are present in the dataset
-        if  NFaceUp > 10 && sum(ismember(ChsoI,EEGdata_Faces_Obj.label),2) == 2
+        if  length(EEGdata_Faces_Obj.trialinfo) > 10 && sum(ismember(ChsoI,EEGdata_Faces_Obj.label),2) == 2
             % Face up
             % average over channels and select  trials
                 cfg = [];
