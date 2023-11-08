@@ -33,19 +33,26 @@
 
 clear variables
 
-% add common paths
+% Set up local paths to scripts
+%add LM code TaskEngine2
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/TaskEngine2'))
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/lm_tools'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/ettools-main'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/eegtools'));
+    addpath(genpath('/Users/teresa/Documents/MATLAB/STREAM/tasks')); 
 % braintools UK specific analysis scripts    
-    addpath('/XXXXX');
+    addpath('/Users/teresa/Documents/MATLAB/STREAM');
+    addpath('/Users/teresa/Documents/MATLAB/EEG_QC/BrT_Arb_scripts')
 %add fieldtrip path and set to defaults
-    addpath('XXXXX/fieldtrip-20180925'); 
+    addpath('/Users/teresa/Documents/MATLAB/fieldtrip-20180925'); 
     ft_defaults
 
 
 %% Checkerboards
 % Loop through participants for test data    
     % load old and new trackers
-%         load /Users/riannehaartsen/Documents/02b_Braintools/Braintools_UK_Trt/BraintoolsUK_Cleandata_tracker.mat
-	load /XXXXX/BrtUK_Checkers_features.mat
+    load /Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat
+% 	load /XXXXX/BrtUK_Checkers_features.mat
 
 
     % Define the different numbers of trials to average across
@@ -56,13 +63,15 @@ clear variables
 % ERPtime, ERPavg, P1lat, P1pamp, DTWdir_stim, DTWdir_P1time
 % 
 %     Nrows = height(BrtUK_Checkers_features);
-%     BrtUK_Checkers_features = table('Size',[Nrows 11], ...
-%         'VariableNames',{'IDses','CleanData_path','ERPs_path','Nrantrls','ERPtime','ERPavg','P1lat','P1pamp',...
-%         'DTWdir_stim','DTWdir_P1time','P1_valid'},...
-%         'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell', 'cell','cell','cell','cell'});
+    PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
+    Nrows = numel(PPTfolder)-7;
+    stream_Checkers_features = table('Size',[Nrows 11], ...
+        'VariableNames',{'IDses','CleanData_path','ERPs_path','Nrantrls','ERPtime','ERPavg','P1lat','P1pamp',...
+        'DTWdir_stim','DTWdir_P1time','P1_valid'},...
+        'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell', 'cell','cell','cell','cell'});
 %     manually enter and adjust the IDs
 
-%     save('/XXXXX'/BrtUK_Checkers_features.mat','BrtUK_Checkers_features');
+    save('/XXXXXUsers/teresa/Documents/MATLAB/data/stream/0_stream_Trt'/BrtUK_Checkers_features.mat','BrtUK_Checkers_features');
     
     % load the grand average for the dtw
     load('/XXXXX/BraintoolsUK_GrandAverages.mat','Gavg_Checkers')
