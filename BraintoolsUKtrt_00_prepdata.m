@@ -61,7 +61,7 @@ clear variables
 
 %% Populating the table %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-for ii = 18 : height(stream_IDs_tracking_wETint) % per subject
+for ii = 1 : height(stream_IDs_tracking_wETint) % per subject
     
     fprintf('Currently nr %i out of %i\n',ii,height(stream_IDs_tracking_wETint))
     fprintf('Subject %s \n',PPTfolder(7+ii).name)
