@@ -71,21 +71,21 @@ clear variables
         'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell', 'cell','cell','cell','cell'});
 %     manually enter and adjust the IDs
 
-    save('/XXXXXUsers/teresa/Documents/MATLAB/data/stream/0_stream_Trt'/BrtUK_Checkers_features.mat','BrtUK_Checkers_features');
+    save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Checkers_features.mat','stream_Checkers_features');
     
     % load the grand average for the dtw
-    load('/XXXXX/BraintoolsUK_GrandAverages.mat','Gavg_Checkers')
-    Ref_gavg = Gavg_Checkers.avg;
-    clear Gavg_Checkers
+    load('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_GrandAverages.mat', 'Gavg_CheckAll')
+    Ref_gavg = Gavg_CheckAll.avg;
+    clear Gavg_CheckAll
     
-for ss = 1:height(BrtUK_Checkers_features)  
+for ss = 1:height(stream_Checkers_features)  
     
-    fprintf('Currently nr %i out of %i\n',ss,height(BrtUK_Checkers_features))
-    Subj = BrtUK_Checkers_features.IDses{ss}; %ppt code
+    fprintf('Currently nr %i out of %i\n',ss,height(stream_Checkers_features))
+    Subj = stream_ClnEEG.IDses{ss}; %ppt code
     fprintf('Subject %s\n',Subj)
     
     % 1) load clean data
-        load(BrtUK_Checkers_features.CleanData_path{ss},'EEGdata_Checkers', 'FastERP_info')
+        load(stream_ClnEEG.CleanData_path{ss},'EEGdata_Checkers', 'FastERP_info')
 
     % 2) preallocate datasets for tracking table
         Number_of_randomselections = length(Nrantrls);
@@ -108,10 +108,10 @@ for ss = 1:height(BrtUK_Checkers_features)
         for tt = 1:Number_of_randomselections
             % randomly draw N trials and calculate ERP avg
                Numcurr = Nrantrls(1,tt);
-               [Individual_ERP_Checker] = BrtUKtrt_03a_randomNs_indivERPs(EEGdata_Checkers, FastERP_info, 'checkers', Numcurr);
+               [Individual_ERP_Checker] = BrtUKtrt_032a_randomNs_indivERPs(EEGdata_Checkers, FastERP_info, 'checkers', Numcurr);
             
             % get all features for checkers
-               [ERPfeatures] = BrtUKtrt_03b_AllERPfeatures(Individual_ERP_Checker, 'checkers', Ref_gavg);
+               [ERPfeatures] = BrtUKtrt_032b_AllERPfeatures(Individual_ERP_Checker, 'checkers', Ref_gavg);
                
             % add features for tracking table
                 % check if the number of trials found was not 0
@@ -129,7 +129,7 @@ for ss = 1:height(BrtUK_Checkers_features)
                 DTWP1win(1,tt) = ERPfeatures.DTWdir_P1;                
             % test validity of the P1 peak 
                  if ~isequal(Individual_ERP_Checker.Navg,0)
-                    [valid] = BrtUKtrt_03c_PeakValid(Individual_ERP_Checker, FastERP_info, ERPfeatures.P1_Lat);
+                    [valid] = BrtUK_03c_PeakValid(Individual_ERP_Checker, FastERP_info, ERPfeatures.P1_Lat);
                  else 
                      valid = NaN;
                  end
@@ -144,22 +144,24 @@ for ss = 1:height(BrtUK_Checkers_features)
         clear tt
         
     % save the data
-        part1_path = extractBefore(BrtUK_Checkers_features.CleanData_path{ss},'_CleanData.mat');
+        part1_path = extractBefore(stream_ClnEEG.CleanData_path{ss},'_CleanData.mat');
         FullNameData = strcat(part1_path,'_CheckersSubsets_ERPs.mat');
         save(FullNameData, 'CheckerERPs_RandomTrialSelection')    
 
     % add values to tracking table
-        BrtUK_Checkers_features.ERPs_path(ss) = {FullNameData};
-        BrtUK_Checkers_features.Nrantrls(ss) = {Ntrls};
-        BrtUK_Checkers_features.ERPtime(ss) = {ERPtime};
-        BrtUK_Checkers_features.ERPavg(ss) = {ERPavg};
-        BrtUK_Checkers_features.P1lat(ss) = {P1lat};
-        BrtUK_Checkers_features.P1pamp(ss) = {P1pamp};
-        BrtUK_Checkers_features.DTWdir_stim(ss) = {DTWstim};
-        BrtUK_Checkers_features.DTWdir_P1time(ss) = {DTWP1win};
-        BrtUK_Checkers_features.P1_valid(ss) = {P1_valid};
+        stream_Checkers_features.IDses(ss) = {Subj};
+        stream_Checkers_features.CleanData_path(ss) = {stream_ClnEEG.CleanData_path{ss}};
+        stream_Checkers_features.ERPs_path(ss) = {FullNameData};
+        stream_Checkers_features.Nrantrls(ss) = {Ntrls};
+        stream_Checkers_features.ERPtime(ss) = {ERPtime};
+        stream_Checkers_features.ERPavg(ss) = {ERPavg};
+        stream_Checkers_features.P1lat(ss) = {P1lat};
+        stream_Checkers_features.P1pamp(ss) = {P1pamp};
+        stream_Checkers_features.DTWdir_stim(ss) = {DTWstim};
+        stream_Checkers_features.DTWdir_P1time(ss) = {DTWP1win};
+        stream_Checkers_features.P1_valid(ss) = {P1_valid};
   
-        save('/XXXXX/BrtUK_Checkers_features.mat','BrtUK_Checkers_features');
+        save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Checkers_features.mat','stream_Checkers_features');
     
         % clean up
         clear FullNameData 
@@ -181,41 +183,41 @@ clear Ref_gavg ss ERPfeatures Individual_ERP_Checkers
 % Loop through participants for test data    
     % load old and new trackers
 %         load /Users/riannehaartsen/Documents/02b_Braintools/Braintools_UK_Trt/BraintoolsUK_Cleandata_tracker.mat
-	load /XXXXX/BrtUK_Faces_features.mat
+%	load /XXXXX/BrtUK_Faces_features.mat
 
 
     % Define the different numbers of trials to average across
-        Nrantrls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0]; % 0 = all trials available
+    Nrantrls = [10, 20, 30, 40, 50, 0]; % 0 = all trials available
 
 % create a table with variable for tracking
 % Variables: ID+session, CleanData_path, ERPs_path, Nrantrls, 
 % ERPtime, ERPavg, N290lat, N290pamp, N290mamp,P400mamp, 
 % DTWdir_stim, DTWdir_N290time, DTWdir_P400time
 
-%     Nrows = height(BrtUK_ClnEEG);
-%     BrtUK_Faces_features = table('Size',[Nrows 14], ...
-%         'VariableNames',{'IDses','CleanData_path','ERPs_path','Nrantrls','ERPtime','ERPavg',...
-%         'N290lat','N290pamp','N290mamp','P400mamp',...
-%         'DTWdir_stim','DTWdir_N290time','DTWdir_P400time','N290_valid'},...
-%         'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell', 'cell','cell','cell','cell',...
-%         'cell','cell','cell'});
-%     manually enter and adjust the IDs
+    PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
+    Nrows = numel(PPTfolder)-7;
+    stream_Faces_features = table('Size',[Nrows 14], ...
+        'VariableNames',{'IDses','CleanData_path','ERPs_path','Nrantrls','ERPtime','ERPavg',...
+        'N290lat','N290pamp','N290mamp','P400mamp',...
+        'DTWdir_stim','DTWdir_N290time','DTWdir_P400time','N290_valid'},...
+        'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell', 'cell','cell','cell','cell',...
+        'cell','cell','cell'});
 
-%     save('/XXXXX/BrtUK_Faces_features.mat','BrtUK_Faces_features');
+    save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Faces_features.mat','stream_Faces_features');
     
     % load the grand average for the dtw
-    load('/XXXXX/BraintoolsUK_GrandAverages.mat','Gavg_FaceAll')
+    load('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_GrandAverages.mat','Gavg_FaceAll')
     Ref_gavg = Gavg_FaceAll.avg;
     clear Gavg_FaceAll
     
-for ss = 1:height(BrtUK_Faces_features)  
+for ss = 1:height(stream_Faces_features)  
     
-    fprintf('Currently nr %i out of %i\n',ss,height(BrtUK_Faces_features))
-    Subj = BrtUK_Faces_features.IDses{ss}; %ppt code
+    fprintf('Currently nr %i out of %i\n',ss,height(stream_Faces_features))
+    Subj = stream_ClnEEG.IDses{ss}; %ppt code
     fprintf('Subject %s\n',Subj)
     
     % 1) load clean data
-        load(BrtUK_Faces_features.CleanData_path{ss},'EEGdata_Faces_Obj', 'FastERP_info')
+        load(stream_ClnEEG.CleanData_path{ss},'EEGdata_Faces_Obj', 'FastERP_info')
 
     % 2) preallocate datasets for tracking table
         Number_of_randomselections = length(Nrantrls);
@@ -242,9 +244,9 @@ for ss = 1:height(BrtUK_Faces_features)
         for tt = 1:Number_of_randomselections
             % randomly draw N trials and calculate ERP avg
                Numcurr = Nrantrls(1,tt);
-               [Individual_ERP_Faces] = BrtUKtrt_03a_randomNs_indivERPs(EEGdata_Faces_Obj, FastERP_info, 'faces', Numcurr);
+               [Individual_ERP_Faces] = BrtUKtrt_032a_randomNs_indivERPs(EEGdata_Faces_Obj, FastERP_info, 'facesUp', Numcurr);
             % get all features for checkers
-               [ERPfeatures] = BrtUKtrt_03b_AllERPfeatures(Individual_ERP_Faces, 'faces', Ref_gavg);
+               [ERPfeatures] = BrtUKtrt_032b_AllERPfeatures(Individual_ERP_Faces, 'faces', Ref_gavg);
             % add features for tracking table
                 % check if the number of trials found was not 0
                 if ~isequal(Individual_ERP_Faces.Navg,0)
@@ -264,7 +266,7 @@ for ss = 1:height(BrtUK_Faces_features)
                 DTWdir_P400time(1,tt) = ERPfeatures.DTWdir_P400;
             % test validity of the N290 peak 
             if ~isequal(Individual_ERP_Faces.Navg,0)
-                [valid] = BrtUKtrt_03c_PeakValid(Individual_ERP_Faces, FastERP_info, ERPfeatures.N290_Lat);
+                [valid] = BrtUK_03c_PeakValid(Individual_ERP_Faces, FastERP_info, ERPfeatures.N290_Lat);
             else
                 valid = NaN;
             end
@@ -279,25 +281,27 @@ for ss = 1:height(BrtUK_Faces_features)
         clear tt
         
     % save the data
-        part1_path = extractBefore(BrtUK_Faces_features.CleanData_path{ss},'_CleanData.mat');
+        part1_path = extractBefore(stream_ClnEEG.CleanData_path{ss},'_CleanData.mat');
         FullNameData = strcat(part1_path,'_FacesSubsets_ERPs.mat');
         save(FullNameData, 'FacesERPs_RandomTrialSelection')    
 
     % add values to tracking table
-        BrtUK_Faces_features.ERPs_path(ss) = {FullNameData};
-        BrtUK_Faces_features.Nrantrls(ss) = {Ntrls};
-        BrtUK_Faces_features.ERPtime(ss) = {ERPtime};
-        BrtUK_Faces_features.ERPavg(ss) = {ERPavg};
-        BrtUK_Faces_features.N290lat(ss) = {N290lat};
-        BrtUK_Faces_features.N290pamp(ss) = {N290pamp};
-        BrtUK_Faces_features.N290mamp(ss) = {N290mamp};
-        BrtUK_Faces_features.P400mamp(ss) = {P400mamp};
-        BrtUK_Faces_features.DTWdir_stim(ss) = {DTWdir_stim};
-        BrtUK_Faces_features.DTWdir_N290time(ss) = {DTWdir_N290time};
-        BrtUK_Faces_features.DTWdir_P400time(ss) = {DTWdir_P400time};
-        BrtUK_Faces_features.N290_valid(ss) = {N290_valid};
+        stream_Faces_features.IDses(ss) = {Subj};
+        stream_Faces_features.CleanData_path(ss) = {stream_ClnEEG.CleanData_path{ss}};
+        stream_Faces_features.ERPs_path(ss) = {FullNameData};
+        stream_Faces_features.Nrantrls(ss) = {Ntrls};
+        stream_Faces_features.ERPtime(ss) = {ERPtime};
+        stream_Faces_features.ERPavg(ss) = {ERPavg};
+        stream_Faces_features.N290lat(ss) = {N290lat};
+        stream_Faces_features.N290pamp(ss) = {N290pamp};
+        stream_Faces_features.N290mamp(ss) = {N290mamp};
+        stream_Faces_features.P400mamp(ss) = {P400mamp};
+        stream_Faces_features.DTWdir_stim(ss) = {DTWdir_stim};
+        stream_Faces_features.DTWdir_N290time(ss) = {DTWdir_N290time};
+        stream_Faces_features.DTWdir_P400time(ss) = {DTWdir_P400time};
+        stream_Faces_features.N290_valid(ss) = {N290_valid};
   
-        save('/XXXXX/BrtUK_Faces_features.mat','BrtUK_Faces_features');
+        save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Faces_features.mat','stream_Faces_features');
     
         % clean up
         clear FullNameData 

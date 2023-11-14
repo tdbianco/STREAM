@@ -111,6 +111,7 @@ for ss = 1:height(stream_ClnEEG)
         
 end
 
+save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat','stream_ClnEEG');
 
 %% For all datasets: create grand average
 

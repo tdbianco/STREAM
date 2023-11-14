@@ -158,9 +158,9 @@ elseif strcmp(condition, 'facesUp')
     if ~isempty(DATAclean)
         FaceUp_inds = find(ismember(DATAclean.trialinfo, Mrkr_faceup));
         % further check data
-        if NumRantrls == 0 & length(FaceUp_inds) > 2
+        if NumRantrls == 0
             IndsToI_Fu = FaceUp_inds;
-        elseif length(FaceUp_inds) >= NumRantrls & length(FaceUp_inds) > 2
+        elseif length(FaceUp_inds) >= NumRantrls
             Inds1 = randperm(length(FaceUp_inds),NumRantrls);
             IndsToI_Fu = FaceUp_inds(Inds1);
             IndsToI_Fu = sort(IndsToI_Fu);
