@@ -51,7 +51,7 @@ if strcmp(condition, 'checkers')
         end
         clear Check_inds
         % check whether the channel of interest is present
-        ChsoI_C = 'Oz';
+        ChsoI_C = {'P7','P8'};
         if ~ismember(ChsoI_C,DATAclean.label)
             warning('Channel of interest not present in data for checkers')
             IndsToI_C = NaN;
@@ -65,7 +65,7 @@ if strcmp(condition, 'checkers')
         % get the avg ERP for the N randomised trials
         % average over channels and select  trials
             cfg = [];
-            cfg.channel     = ChsoI_C;
+            cfg.channels     = ChsoI_C;
             cfg.avgoverchan = 'yes';
             cfg.trials      = IndsToI_C;
             data_avgchoi = ft_selectdata(cfg,DATAclean);

@@ -46,13 +46,12 @@ clear variables
 % Nfaceup, Ncheckers
 
 % create a table with variable for tracking
-load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint_man.mat'
 
 PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
-    Nrows = height(stream_IDs_tracking_wETint);
-%     stream_ClnEEG = table('Size',[Nrows 5], ...
-%         'VariableNames',{'IDses','EEGft_path','CleanData_path','Nfaceup','Ncheckers'},...
-%         'VariableTypes',{'cell','cell','cell','cell','cell'});
+    Nrows = numel(PPTfolder)-7;
+    stream_ClnEEG = table('Size',[Nrows 5], ...
+        'VariableNames',{'IDses','EEGft_path','CleanData_path','Nfaceup','Ncheckers'},...
+        'VariableTypes',{'cell','cell','cell','cell','cell'});
 
     save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat','stream_ClnEEG');
 
@@ -60,7 +59,7 @@ PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
 %% Clean and preprocess all datasets
 
 % load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat'
-
+load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint_man.mat'
 % remove ppts with < 20 trials
 %it's impossible in fucking matlab of my fucking fucking. removing
 %manually. 
@@ -72,10 +71,10 @@ PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
     BPfilter = [.1, 40]; % range for band pass filter
     Baseline_timewindow =  [-0.1, 0]; % time for baseline correction in sec, or empty
 
-for ss = 82:height(stream_ClnEEG)
+for ss = 1:height(stream_ClnEEG)
 
     fprintf('Currently nr %i out of %i\n',ss,height(stream_ClnEEG))
-    Subj = stream_IDs_tracking_wETint.ID{ss}; %ppt code
+    Subj = PPTfolder(7+ss).name; %ppt code
     disp(Subj)
     
     % 1) Find the fieldtrip data    

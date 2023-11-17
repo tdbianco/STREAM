@@ -32,16 +32,16 @@
 %% Create the table to compilate with info %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear variables
-load('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat');
+% load('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat');
 
 % or you can create a table with variable for tracking if it does not exist yet
-%     PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
-%     Nrows = numel(PPTfolder)-7;
-%     stream_IDs_tracking_wETint = table('Size',[Nrows 7], ...
-%         'VariableNames',{'ID','tEEG_path','tNev_EEG','tNev_ET','tN_ETraw50','tN_ETint50','tETpropVal_raw_int'},...
-%         'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell'});
-% 
-%     save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat','stream_IDs_tracking_wETint');
+    PPTfolder = dir('/Users/teresa/Documents/MATLAB/data/stream');
+    Nrows = numel(PPTfolder)-7;
+    stream_IDs_tracking_wETint = table('Size',[Nrows 7], ...
+        'VariableNames',{'ID','tEEG_path','tNev_EEG','tNev_ET','tN_ETraw50','tN_ETint50','tETpropVal_raw_int'},...
+        'VariableTypes',{'cell','cell','cell','cell','cell','cell','cell'});
+
+    save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_IDs_tracking_wETint.mat','stream_IDs_tracking_wETint');
 
 
 % Set up local paths to scripts
@@ -248,22 +248,19 @@ clear xxxE
 % clear xxxE 
     
 Ntrls_EEGIN = IN_EEGn(xxxin,1);
-N_OK =  Ntrls_EEGIN(:) <= 300;
-Ntrls_EEGIN2 = Ntrls_EEGIN(N_OK,1);
 % Ntrls_EEGMW = MW_EEGn(xxxmw,1);
 figure;
 % h1 = histogram(Ntrls_EEGMW);
 % hold on
-h2 = histogram(Ntrls_EEGIN2);
+h2 = histogram(Ntrls_EEGIN);
 % h1.BinWidth = 17;
 h2.BinWidth = 6;
-% legend('India')
-ylabel('N participants with ET > 60% (Tot = 131)')
+legend('India')
+ylabel('N participants with ET > 60%')
 xlabel('N EEG trials')
 
 IDs_HighlyAttentiveET_IN = stream_IDs_tracking_wETint_IN.ID(xxxin);
-
-% IDs_HighlyAttentiveET_MW = stream_IDs_tracking_wETint_MW.ID(xxxmw);
+IDs_HighlyAttentiveET_MW = stream_IDs_tracking_wETint_MW.ID(xxxmw);
 
 
 
