@@ -328,7 +328,4 @@ for ss = 1:height(stream_Faces_features)
     tidy_290 = [tidy_290;tidy_290_temp]; 
 end
 
-ntrl = [stream_Faces_features.Nrantrls{ss}];
-n290lat = [stream_Faces_features.N290lat{:}];
-n290mamp = [stream_Faces_features.N290mamp{:}];
-table_final = table(ntrl, n290lat, n290mamp);
+writetable(tidy_290,'/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/tidy_290.csv','Delimiter',';');
