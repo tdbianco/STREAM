@@ -159,7 +159,7 @@ elseif strcmp(condition, 'facesUp')
         FaceUp_inds = find(ismember(DATAclean.trialinfo, Mrkr_faceup));
         Dis_FaceUps = find(ismember(DATAclean.cfg.trials, 0),1); % are there discarded trials
         % further check data
-        if length(FaceUp_inds) >= NumRantrls && NumRantrls ~= 0 % take a random selection of trials when loads of trials
+        if length(FaceUp_inds) >= NumRantrls % take a random selection of trials when loads of trials
             Inds1 = randperm(length(FaceUp_inds),NumRantrls);
             IndsToI_Fu = FaceUp_inds(Inds1);
             IndsToI_Fu = sort(IndsToI_Fu);
@@ -167,7 +167,7 @@ elseif strcmp(condition, 'facesUp')
         elseif NumRantrls == 0 && isempty(Dis_FaceUps) % take all trials when no discarded trials
                IndsToI_Fu = FaceUp_inds;
         else
-            warning('Not enough face up trials for N random trials selected, or random trials interspersed with discarded trials')
+            warning('Not enough face up trials for N random trials selected')
             IndsToI_Fu = NaN;
         end
         clear FaceUp_inds 

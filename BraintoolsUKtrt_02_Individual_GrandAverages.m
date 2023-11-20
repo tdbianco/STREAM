@@ -38,7 +38,7 @@ clear variables
     
 %% For each dataset: create individual averages
 
-load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat'
+load '/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker_man.mat'
     
 for ss = 1:height(stream_ClnEEG)  
     

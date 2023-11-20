@@ -207,7 +207,7 @@ clear Ref_gavg ss ERPfeatures Individual_ERP_Checkers
     clear Gavg_FaceAll
     
     
-for ss = 1:height(stream_Faces_features)  
+for ss = 43:height(stream_Faces_features)  
     
     fprintf('Currently nr %i out of %i\n',ss,height(stream_Faces_features))
     Subj = stream_ClnEEG.IDses{ss}; %ppt code
@@ -317,15 +317,16 @@ end % end loop through IDs
 
 %% Save to tidy format for analysis
 
-tidy_290 = table;
+tidy_290 = table('Size',[height(stream_Faces_features) 4], ...
+        'VariableNames',{'id','ntrl','n290lat','n290mamp'},...
+        'VariableTypes',{'cell','cell','cell','cell'});
     
 for ss = 1:height(stream_Faces_features)
     ntrl = [stream_Faces_features.Nrantrls{ss}]';
     id = repmat({stream_ClnEEG.IDses{ss}},1,length(ntrl))';
     n290lat = [stream_Faces_features.N290lat{ss}]';
     n290mamp = [stream_Faces_features.N290mamp{ss}]';
-    tidy_290_temp = table(id, ntrl, n290lat, n290mamp);
-    tidy_290 = [tidy_290;tidy_290_temp]; 
+    tidy_290(ss) = table(id, ntrl, n290lat);
 end
 
 ntrl = [stream_Faces_features.Nrantrls{ss}];

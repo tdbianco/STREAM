@@ -110,7 +110,7 @@ for ss = 82:height(stream_ClnEEG)
         %stream_ClnEEG.Nobjinv(ss) = {FastERP_info.N_trials.ObjInv.Nclean};
         stream_ClnEEG.Ncheckers(ss) = {FastERP_info.N_trials.Checkers.Nclean}; 
         
-        save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker.mat','stream_ClnEEG');
+        save('/Users/teresa/Documents/MATLAB/data/stream/0_stream_Trt/stream_Cleandata_tracker_man.mat','stream_ClnEEG');
         
         clear EEGdata_Faces_Obj EEGdata_Checkers FastERP_info 
         clear FTdata Cleandata_path Session_path Subj
